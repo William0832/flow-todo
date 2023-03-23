@@ -1,0 +1,23 @@
+:root {
+ --badge-size: 30px;
+ --node-border-radius: 10px;
+}
+.react-flow__node-card .card-node {
+  border: 0;
+  box-shadow: none;
+  border-radius: var(--node-border-radius);
+}
+
+.react-flow__node-card .MuiBadge-badge {
+  width: var(--badge-size);
+  height: var(--badge-size);
+  border-radius: 50%;
+}
+
+.react-flow__node-card .MuiCard-root:hover {
+  box-shadow: 20px 40px 100px 5px  rgba(0,0,0, .2);
+
+}
+.card-node .MuiCardContent-root {
+  padding-top: .3rem;
+}
