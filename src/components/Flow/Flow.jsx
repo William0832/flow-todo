@@ -2,6 +2,7 @@ import { v4 as uid } from 'uuid'
 
 import { useState, useCallback } from 'react'
 import ReactFlow, {
+  isEdge as isEdgeTarget,
   addEdge, Panel, Background, Controls, MiniMap, applyNodeChanges, applyEdgeChanges,
   ReactFlowProvider, useReactFlow,
   ConnectionMode
@@ -48,7 +49,7 @@ function Flow ({
     setNodes((nds) => nds.concat(newNode))
   }, [nodes])
   const createEdge = useCallback((sourceId, targetId, name) => {
-    console.log(sourceId, targetId, name)
+    // console.log(sourceId, targetId, name)
     const newEdge = {
       id: uid(), source: sourceId, target: targetId, label: name || ''
     }
@@ -71,6 +72,7 @@ function Flow ({
   }
   const onEdgeClick = (evt, edge) => {
     console.log(edge)
+    clickTarget(edge)
   }
   return (
     <ReactFlow
@@ -124,7 +126,7 @@ function Flow ({
         createNode={createNode}
         createEdge={createEdge}
       />
-    </ReactFlow >
+    </ReactFlow>
   )
 }
 
@@ -153,9 +155,9 @@ export default function () {
   const [target, setTarget] = useState()
   const modify = (target, payload) => {
     const { id } = target
+    const { name: newName } = payload
     const isNode = !!nodes.find(e => e.id === id)
     if (isNode) {
-      const { name: newName } = payload
       if (newName === '' || newName == null) return
       setNodes(
         (nds) => {
@@ -171,13 +173,21 @@ export default function () {
       )
       setTarget(() => null)
     }
+    setEdges((edg) => edg.map(e => ({
+      ...e,
+      label: e.id === id ? newName : e.label
+    })))
+
   }
   const remove = (target) => {
     const { id } = target
     const isNode = !!nodes.find(e => e.id === id)
     if (isNode) {
       setNodes((nds) => nds.filter(e => e.id !== id))
+      setTarget(() => null)
+      return
     }
+    setEdges((edg) => edg.filter(e => e.id !== id))
     setTarget(() => null)
   }
   return (
@@ -198,6 +208,7 @@ export default function () {
           />
         </ReactFlowProvider>
         <ModifySideBar
+          isEdgeTarget={isEdgeTarget}
           target={target}
           modify={modify}
           remove={remove}

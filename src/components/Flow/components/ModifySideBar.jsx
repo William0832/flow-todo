@@ -3,13 +3,23 @@ import { useEffect, useState, useMemo } from 'react'
 import clsx from 'clsx'
 import { Stack, Button } from '@mui/material'
 
-export default function ModifySideBar ({ target, modify, remove, setTarget }) {
+export default function ModifySideBar ({ target, modify, remove, setTarget, isEdgeTarget }) {
   const [isOpen, setIsOpen] = useState(true)
-  const [name, setName] = useState(target?.data?.label || '')
+  const [name, setName] = useState(target?.data?.label || target?.label || '')
+
   const isStartNode = useMemo(() => target?.id === 'start', [target])
+  const isEdge = useMemo(() =>
+    !!target && isEdgeTarget(target || null)
+    , [target]
+  )
+  const TypeName = useMemo(() =>
+    isEdge ? 'Edge' : `${(target?.data?.type || '').toUpperCase()} Node`
+    , [target]
+  )
+
   useEffect(() => {
     if (!target) return
-    setName(() => target.data?.label)
+    setName(() => target?.data?.label || target?.label)
   }, [target])
   return (
     <>
@@ -18,7 +28,7 @@ export default function ModifySideBar ({ target, modify, remove, setTarget }) {
         'w-[60px]': !isOpen
       })}>
         {target ? <Stack spacing={2} className="m-2 h-full">
-          <h4>{target?.data?.type}</h4>
+          <h4>{TypeName}</h4>
           <TextField
             label="name"
             id="name"
