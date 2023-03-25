@@ -1,13 +1,15 @@
 // import { useCallback } from 'react'
 import { Handle, Position } from 'reactflow'
 import {
-  Badge, Card, CardMedia, CardContent, Typography,
+  Box
   // CardActions, Button
 } from '@mui/material'
+
 import './style.css'
 import { v4 as uuid } from 'uuid'
-const nodeWidth = 200
-const leftNodeLength = 25
+const nodeWidth = 125
+const nodeHeight = 40
+const leftNodeLength = 20
 const rightNodeLength = nodeWidth - leftNodeLength
 const defaultHandles = [
   { id: uuid(), position: Position.Top, style: { left: leftNodeLength } },
@@ -22,31 +24,29 @@ const defaultHandles = [
 
 function CardNode ({ data, isConnectable }) {
   return (
-    <Badge color="error" badgeContent="!">
-      <Card className={`card-node w-[${nodeWidth}px]`}>
-        <CardMedia
-          className="w-full h-[160px] mt-1"
-          image="./factory.jpeg"
-          title="node img"
-        />
-        <CardContent>
-          <Typography variant="h5" component="div" align='center'>
-            {data.label}
-          </Typography>
-        </CardContent>
-      </Card>
-      {defaultHandles.map(e => (
-        <Handle
-          id={e.id}
-          key={e.id}
-          type="source"
-          position={e.position}
-          isConnectable={isConnectable}
-          style={e.style}
-        />
-      ))}
-    </Badge>
-  )
+    <>
+      <Box
+        width={`${nodeWidth}px`}
+        height={`${nodeHeight}px`}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        {data.label}
+      </Box>
+      {
+        defaultHandles.map(e => (
+          <Handle
+            id={e.id}
+            key={e.id}
+            type="source"
+            position={e.position}
+            isConnectable={isConnectable}
+            style={e.style}
+          />
+        ))
+      }
+    </>)
 }
 
 export default CardNode

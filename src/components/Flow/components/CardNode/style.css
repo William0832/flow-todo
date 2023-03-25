@@ -21,3 +21,33 @@
 .card-node .MuiCardContent-root {
   padding-top: .3rem;
 }
+
+/* handle */
+.react-flow__node-card .react-flow__handle {
+  opacity: 0;
+  background: #000;
+  width: var(--handel-size);
+  height: var(--handel-size);
+}
+
+/* card handle */
+.react-flow__node-card:hover .react-flow__handle,
+.react-flow__node-card.selected .react-flow__handle {
+  opacity: 1;
+}
+
+
+/*  edge */
+.react-flow__edge .react-flow__edge-path {
+  stroke: #ccc;
+  stroke-width: 2;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: #888 !important;
+  stroke-width: 2.5 !important;
+}
+
+.react-flow__arrowhead > polyline {
+  stroke: #aaa;
+}

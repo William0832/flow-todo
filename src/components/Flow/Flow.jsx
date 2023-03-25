@@ -42,7 +42,8 @@ function Flow ({
         label: name,
         type
       },
-      style: getNodeStyle(type)
+      style: getNodeStyle(type),
+      type: 'card'
     }
     setNodes((nds) => nds.concat(newNode))
   }, [nodes])
@@ -76,18 +77,18 @@ function Flow ({
       fitView
       nodes={nodes}
       edges={edges}
-      defaultEdgeOptions={edgeOptions}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
       onNodeClick={onNodeClick}
       onEdgeClick={onEdgeClick}
       nodeTypes={nodeTypes}
-      // connectionMode={ConnectionMode.Loose}
+      connectionMode={ConnectionMode.Loose}
+      className="transition"
       style={{
         backgroundColor: '#fff',
       }}
-      className="transition"
+      defaultEdgeOptions={edgeOptions}
       connectionLineStyle={connectionLineStyle}
     >
       <Controls />
